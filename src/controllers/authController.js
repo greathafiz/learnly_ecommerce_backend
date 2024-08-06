@@ -1,16 +1,16 @@
 import User from "../models/User.js";
 
-export const registerUser = async (req, res) => {
+export const registerUser = async (req, res, next) => {
   try {
     const user = await User.create(req.body);
     const token = user.generateAuthToken();
     res.status(201).json({ user, token });
   } catch (error) {
-    res.status(500).json({ error });
+    next(error);
   }
 };
 
-export const loginUser = async (req, res) => {
+export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
@@ -21,6 +21,6 @@ export const loginUser = async (req, res) => {
     const token = user.generateAuthToken();
     res.json({ user, token });
   } catch (error) {
-    res.status(500).json({ error });
+    next(error);
   }
 };

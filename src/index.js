@@ -4,6 +4,8 @@ import cors from "cors";
 import connectDB from "./config/database.js";
 import authRoutes from "./routes/authRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
+import notFoundMiddleware from "./middlewares/notFound.js";
+import errorHandlerMiddleware from "./middlewares/errorHandler.js";
 
 const app = express();
 
@@ -15,6 +17,9 @@ const PORT = process.env.PORT || 5005;
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/products", productRoutes);
+
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
 const start = async () => {
   await connectDB();
