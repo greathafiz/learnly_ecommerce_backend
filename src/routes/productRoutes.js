@@ -1,5 +1,4 @@
 import express from "express";
-import Product from "../models/Product.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 import {
   createProduct,
@@ -8,10 +7,7 @@ import {
   getSingleProduct,
   updateProduct,
 } from "../controllers/productController.js";
-import {
-  createProductSchema,
-  updateProductSchema,
-} from "../validators/productValidator.js";
+import { createProductSchema } from "../validators/productValidator.js";
 import validateRequest from "../middlewares/validationMiddleware.js";
 const router = express.Router();
 
@@ -23,7 +19,7 @@ router
 router
   .route("/:id")
   .get(getSingleProduct)
-  .patch(authMiddleware, validateRequest(updateProductSchema), updateProduct)
+  .patch(authMiddleware, updateProduct)
   .delete(authMiddleware, deleteProduct);
 
 export default router;

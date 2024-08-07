@@ -11,7 +11,12 @@ export default (error, req, res, next) => {
       .join(", ");
   }
 
-  if (error.errorResponse.code && error.errorResponse.code === 11000) {
+  if (
+    error &&
+    error.errorResponse &&
+    error.errorResponse.code &&
+    error.errorResponse.code === 11000
+  ) {
     customError.statusCode = 409;
     customError.msg = `${Object.keys(
       error.keyValue
@@ -20,7 +25,7 @@ export default (error, req, res, next) => {
 
   if (error.name === "CastError") {
     customError.statusCode = 404;
-    customError.msg = `No item found with id : ${error.value}`;
+    customError.msg = `No item found with id: ${error.value}`;
   }
   return res.status(customError.statusCode).json({
     msg: customError.msg,

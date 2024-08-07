@@ -3,8 +3,7 @@ import User from "../models/User.js";
 export const registerUser = async (req, res, next) => {
   try {
     const user = await User.create(req.body);
-    const token = user.generateAuthToken();
-    res.status(201).json({ user, token });
+    res.status(201).json({ user });
   } catch (error) {
     next(error);
   }
